@@ -12,17 +12,6 @@ Repositorio oficial:
 
 - [EduLps1/DevWebMob_Amigo-Fiel](https://github.com/EduLps1/DevWebMob_Amigo-Fiel)
 
-## Status
-
-Em desenvolvimento.
-
-O projeto foi retomado a partir de uma base web em Django e esta sendo reestruturado para uma arquitetura hibrida:
-
-- Web renderizado por Django Templates.
-- API REST para integracao mobile.
-- Frontend mobile em Ionic + Angular consumindo a API.
-- Autenticacao hibrida: sessao/cookies para web e JWT para API/mobile.
-
 ## Stack
 
 | Camada | Tecnologia | Funcao |
@@ -163,7 +152,6 @@ URLs:
 
 - Web local: http://127.0.0.1:8000/
 - Web na rede: http://10.90.8.79:8000/
-- Admin: http://127.0.0.1:8000/admin/
 - API: http://127.0.0.1:8000/api/
 
 ### Ionic mobile
