@@ -1,0 +1,51 @@
+<ion-content [fullscreen]="true" class="amigo-mobile auth-page">
+  <section class="auth-shell">
+    <div class="auth-visual">
+      <img src="assets/img/banner-cadastro.png" alt="Amigo Fiel">
+    </div>
+
+    <div class="auth-panel">
+      <a class="auth-brand" routerLink="/">
+        <img src="assets/img/amigo-fiel-logo-amarelo.png" alt="Amigo Fiel">
+        <strong>AMIGO FIEL</strong>
+      </a>
+
+      <h1>Crie sua conta</h1>
+      <p>Ja tem uma conta? <a routerLink="/login">Entrar</a></p>
+
+      <label class="form-label">Nome de usuario</label>
+      <ion-input class="form-input"></ion-input>
+
+      <label class="form-label">Senha</label>
+      <ion-input class="form-input" type="password"></ion-input>
+
+      <label class="form-label">Confirmar senha</label>
+      <ion-input class="form-input" type="password"></ion-input>
+
+      <label class="form-label">Tipo de conta</label>
+      <ion-select class="form-input" [(ngModel)]="userType" interface="popover">
+        <ion-select-option value="comum">Usuario Comum</ion-select-option>
+        <ion-select-option value="empresa">Empresa</ion-select-option>
+        <ion-select-option value="ong">ONG</ion-select-option>
+      </ion-select>
+
+      @if (userType === 'empresa') {
+        <label class="form-label">Razao social</label>
+        <ion-input class="form-input"></ion-input>
+        <label class="form-label">CNPJ</label>
+        <ion-input class="form-input"></ion-input>
+      }
+
+      @if (userType === 'ong') {
+        <label class="form-label">Nome fantasia</label>
+        <ion-input class="form-input"></ion-input>
+        <label class="form-label">CNPJ</label>
+        <ion-input class="form-input"></ion-input>
+      }
+
+      <ion-button class="auth-button" expand="block" disabled="true">
+        Criar conta
+      </ion-button>
+    </div>
+  </section>
+</ion-content>

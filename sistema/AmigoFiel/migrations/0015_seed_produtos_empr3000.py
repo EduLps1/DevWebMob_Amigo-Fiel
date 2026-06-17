@@ -29,9 +29,9 @@ def seed_produtos_empr3000_forward(apps, schema_editor):
     if user_created:
         user_empr3000.password = make_password("empr3000")
         user_empr3000.save(update_fields=["password"])
-        print(f"✅ Usuário 'empr3000' criado com sucesso")
+        print("Usuario 'empr3000' criado com sucesso")
     else:
-        print(f"ℹ️  Usuário 'empr3000' já existe")
+        print("Usuario 'empr3000' ja existe")
 
     empresa, empresa_created = UsuarioEmpresarial.objects.get_or_create(
         user=user_empr3000,
@@ -44,9 +44,9 @@ def seed_produtos_empr3000_forward(apps, schema_editor):
         },
     )
     if empresa_created:
-        print(f"✅ Empresa 'Empr3000' criada com sucesso")
+        print("Empresa 'Empr3000' criada com sucesso")
     else:
-        print(f"ℹ️  Empresa 'Empr3000' já existe")
+        print("Empresa 'Empr3000' ja existe")
 
     # Lista de produtos para criar
     produtos_data = [
@@ -131,17 +131,17 @@ def seed_produtos_empr3000_forward(apps, schema_editor):
         if created:
             produtos_criados += 1
             desconto_str = f" ({prod_data['desconto_percentual']}% OFF)" if prod_data['desconto_percentual'] > 0 else ""
-            print(f"✅ Produto criado: {prod_data['nome']} - R$ {prod_data['preco']}{desconto_str}")
+            print(f"Produto criado: {prod_data['nome']} - R$ {prod_data['preco']}{desconto_str}")
         else:
             produtos_existentes += 1
-            print(f"ℹ️  Produto já existe: {prod_data['nome']}")
+            print(f"Produto ja existe: {prod_data['nome']}")
 
     print(f"\n{'='*60}")
-    print(f"📊 RESUMO DA OPERAÇÃO")
+    print("RESUMO DA OPERACAO")
     print(f"{'='*60}")
-    print(f"✅ Produtos criados: {produtos_criados}")
-    print(f"ℹ️  Produtos já existentes: {produtos_existentes}")
-    print(f"📦 Total de produtos Empr3000: {ProdutoEmpresa.objects.filter(empresa=empresa).count()}")
+    print(f"Produtos criados: {produtos_criados}")
+    print(f"Produtos ja existentes: {produtos_existentes}")
+    print(f"Total de produtos Empr3000: {ProdutoEmpresa.objects.filter(empresa=empresa).count()}")
     print(f"{'='*60}\n")
 
 

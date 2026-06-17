@@ -13,6 +13,7 @@ urlpatterns = [
     # Auth
     path('login/',  auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('api/', include(('AmigoFiel.api.urls', 'api'), namespace='api')),
 
     # Chat (colocado antes do app principal para evitar que a rota genérica de produto capture /chat/...)
     path('chat/', include(('chat.urls', 'chat'), namespace='chat')),

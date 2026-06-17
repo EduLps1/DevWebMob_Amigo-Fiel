@@ -1,0 +1,47 @@
+<ion-content [fullscreen]="true" class="amigo-mobile">
+  <header class="mobile-topbar">
+    <a class="brand" routerLink="/">
+      <img src="assets/img/amigo-fiel-logo.png" alt="Amigo Fiel">
+      <span>AMIGO FIEL</span>
+    </a>
+    <a class="profile-chip" routerLink="/login">
+      <span>Entrar</span>
+      <small>Conta</small>
+    </a>
+  </header>
+
+  <nav class="mobile-tabs" aria-label="Navegacao principal">
+    <a routerLink="/adotar">Adotar</a>
+    <a routerLink="/produtos">Produtos</a>
+    <a routerLink="/lojas">Lojas</a>
+    <a routerLink="/ongs">ONGs</a>
+  </nav>
+
+  <main>
+    <section class="page-hero">
+      <h1>{{ meta.title }}</h1>
+      <p>{{ meta.subtitle }}</p>
+      <div class="search-row">
+        <ion-input [(ngModel)]="query" placeholder="Pesquisar"></ion-input>
+        <ion-button (click)="load()" [disabled]="loading()">Buscar</ion-button>
+      </div>
+    </section>
+
+    <section class="catalog-grid">
+      @for (item of items(); track item['id']) {
+        <article class="catalog-card">
+          <img [src]="imageOf(item)" [alt]="titleOf(item)">
+          <div>
+            <strong>{{ titleOf(item) }}</strong>
+            <small>{{ subtitleOf(item) }}</small>
+            @if (priceOf(item) !== null) {
+              <em>{{ priceOf(item)! | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</em>
+            }
+          </div>
+        </article>
+      } @empty {
+        <p class="empty-state">{{ loading() ? 'Carregando...' : meta.empty }}</p>
+      }
+    </section>
+  </main>
+</ion-content>

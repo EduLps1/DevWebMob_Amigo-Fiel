@@ -1,0 +1,92 @@
+@import "../home/home.page.scss";
+
+.brand {
+  text-decoration: none;
+}
+
+.page-hero {
+  display: grid;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(35, 64, 74, 0.08);
+}
+
+.page-hero h1 {
+  margin: 0;
+  color: #1f2933;
+  font-size: 26px;
+}
+
+.page-hero p {
+  margin: 0;
+  color: #667085;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.search-row ion-input {
+  min-height: 44px;
+  --background: #f6f8f7;
+  --border-color: #e0e0e0;
+  --border-radius: 10px;
+  --border-style: solid;
+  --border-width: 2px;
+  --padding-start: 12px;
+}
+
+.search-row ion-button {
+  --background: #ffd600;
+  --color: #222;
+  --border-radius: 10px;
+  font-weight: 800;
+}
+
+.catalog-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.catalog-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  align-items: center;
+  border-radius: 14px;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(35, 64, 74, 0.08);
+}
+
+.catalog-card img {
+  width: 92px;
+  height: 92px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #e8efec;
+}
+
+.catalog-card div {
+  display: grid;
+  gap: 5px;
+}
+
+.catalog-card strong {
+  color: #23343b;
+  line-height: 1.25;
+}
+
+.catalog-card small {
+  color: #667085;
+}
+
+.catalog-card em {
+  color: #23404a;
+  font-style: normal;
+  font-weight: 800;
+}

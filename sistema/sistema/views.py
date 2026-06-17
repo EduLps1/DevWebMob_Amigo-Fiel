@@ -2,7 +2,12 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
 
+
+@method_decorator(csrf_protect, name="dispatch")
 class Login(View):
 
     def get(self, request):
@@ -36,6 +41,9 @@ class Logout(View):
     """
     Class Based View para realizar logout de usuarios.
     """
-    def get(self, request):
+
+    @method_decorator(csrf_protect)
+    @method_decorator(require_POST)
+    def post(self, request):
         logout(request)
         return redirect(settings.LOGIN_URL)

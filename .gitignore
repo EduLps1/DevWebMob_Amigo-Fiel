@@ -32,3 +32,16 @@ Thumbs.db
 # Env vars
 .env
 .env.*
+
+# Node / Ionic / Angular
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+mobile/www/
+mobile/.angular/
+mobile/android/
+mobile/ios/
+mobile/coverage/

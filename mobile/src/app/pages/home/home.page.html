@@ -1,0 +1,173 @@
+<ion-content [fullscreen]="true" class="amigo-mobile">
+  <header class="mobile-topbar">
+    <div class="brand">
+      <img src="assets/img/amigo-fiel-logo.png" alt="Amigo Fiel">
+      <span>AMIGO FIEL</span>
+    </div>
+
+    @if (user(); as loggedUser) {
+      <button class="profile-chip" type="button" (click)="logout()">
+        <span>{{ loggedUser.username }}</span>
+        <small>Sair</small>
+      </button>
+    } @else {
+      <a class="profile-chip" routerLink="/login">
+        <span>Entrar</span>
+        <small>Conta</small>
+      </a>
+    }
+  </header>
+
+  <nav class="mobile-tabs" aria-label="Navegacao principal">
+    <a routerLink="/adotar">Adotar</a>
+    <a routerLink="/produtos">Produtos</a>
+    <a routerLink="/lojas">Lojas</a>
+    <a routerLink="/ongs">ONGs</a>
+  </nav>
+
+  <main>
+    @if (!user()) {
+      <section class="auth-shell" id="login">
+        <div class="auth-visual">
+          <img src="assets/img/banner-login.png" alt="Amigo Fiel">
+        </div>
+
+        <div class="auth-panel">
+          <div class="auth-brand">
+            <img src="assets/img/amigo-fiel-logo-amarelo.png" alt="Amigo Fiel">
+            <strong>AMIGO FIEL</strong>
+          </div>
+
+          <h1>Bem-vindo de volta!</h1>
+          <p>Entre para acompanhar pets, produtos, ONGs e lojas parceiras.</p>
+
+          @if (error()) {
+            <div class="error-message" role="alert">{{ error() }}</div>
+          }
+
+          <label class="form-label" for="username">Usuario</label>
+          <ion-input
+            id="username"
+            class="form-input"
+            [(ngModel)]="username"
+            autocomplete="username"
+            placeholder="Digite seu nome de usuario"
+          ></ion-input>
+
+          <label class="form-label" for="password">Senha</label>
+          <div class="password-line">
+            <ion-input
+              id="password"
+              class="form-input"
+              [(ngModel)]="password"
+              [type]="showPassword ? 'text' : 'password'"
+              autocomplete="current-password"
+              placeholder="Digite sua senha"
+            ></ion-input>
+            <button type="button" (click)="showPassword = !showPassword">
+              {{ showPassword ? 'Ocultar' : 'Ver' }}
+            </button>
+          </div>
+
+          <ion-button class="auth-button" expand="block" [disabled]="loading()" (click)="login()">
+            Entrar
+          </ion-button>
+        </div>
+      </section>
+    }
+
+    <section class="hero-carousel" aria-label="Destaques">
+      <img src="assets/img/banners/homepage_promocionais/Procura-se.png" alt="Adote com responsabilidade">
+      <img src="assets/img/banners/homepage_promocionais/vacina.png" alt="Produtos para o seu pet">
+      <img src="assets/img/banners/homepage_promocionais/Dicas.png" alt="Conheca ONGs parceiras">
+    </section>
+
+    <section class="cta-card">
+      <h2>Adotar muda duas vidas</h2>
+      <p>Conheca pets, converse com ONGs e encontre lojas parceiras para cuidar do seu amigo fiel.</p>
+      <div class="cta-actions">
+        <a routerLink="/adotar">Quero adotar</a>
+        <a routerLink="/ongs">Ver ONGs</a>
+      </div>
+    </section>
+
+    @if (home(); as data) {
+      <section class="content-strip" id="adotar">
+        <div class="strip-header">
+          <h2>Veja tambem esses Pets</h2>
+          <span>{{ data.pets.length }} destaques</span>
+        </div>
+        <div class="tile-row">
+          @for (pet of data.pets; track pet.id) {
+            <article class="mini-tile">
+              <img [src]="pet.image_url || 'assets/img/amigo-fiel-logo.png'" [alt]="pet.nome">
+              <strong>{{ pet.nome }}</strong>
+              <small>{{ petSubtitle(pet) }}</small>
+            </article>
+          } @empty {
+            <p class="empty-state">Sem pets ainda.</p>
+          }
+        </div>
+      </section>
+
+      <section class="content-strip" id="produtos">
+        <div class="strip-header">
+          <h2>Veja tambem esses Produtos</h2>
+          <span>{{ data.produtos.length }} destaques</span>
+        </div>
+        <div class="tile-row">
+          @for (produto of data.produtos; track produto.id) {
+            <article class="mini-tile">
+              <img [src]="produto.image_url || 'assets/img/amigo-fiel-logo.png'" [alt]="produto.nome">
+              <strong>{{ produto.nome }}</strong>
+              <small>{{ productSubtitle(produto) }}</small>
+              <em>{{ +produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</em>
+            </article>
+          } @empty {
+            <p class="empty-state">Sem produtos ainda.</p>
+          }
+        </div>
+      </section>
+
+      <section class="content-strip" id="lojas">
+        <div class="strip-header">
+          <h2>Veja tambem essas Lojas</h2>
+          <span>{{ data.lojas.length }} parceiras</span>
+        </div>
+        <div class="tile-row">
+          @for (loja of data.lojas; track loja.id) {
+            <article class="mini-tile">
+              <img [src]="loja.image_url || 'assets/img/amigo-fiel-logo.png'" [alt]="loja.razao_social">
+              <strong>{{ loja.razao_social }}</strong>
+              <small>{{ lojaSubtitle(loja) }}</small>
+            </article>
+          } @empty {
+            <p class="empty-state">Sem lojas ainda.</p>
+          }
+        </div>
+      </section>
+
+      <section class="content-strip" id="ongs">
+        <div class="strip-header">
+          <h2>Veja tambem essas ONGs</h2>
+          <span>{{ data.ongs.length }} parceiras</span>
+        </div>
+        <div class="tile-row">
+          @for (ong of data.ongs; track ong.id) {
+            <article class="mini-tile">
+              <img [src]="ong.image_url || 'assets/img/amigo-fiel-logo.png'" [alt]="ong.nome_fantasia">
+              <strong>{{ ong.nome_fantasia }}</strong>
+              <small>{{ ongSubtitle(ong) }}</small>
+            </article>
+          } @empty {
+            <p class="empty-state">Sem ONGs ainda.</p>
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="loading-state">
+        <p>Carregando destaques...</p>
+      </section>
+    }
+  </main>
+</ion-content>

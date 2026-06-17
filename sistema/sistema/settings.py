@@ -12,27 +12,50 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(BASE_DIR.parent / ".env")
+    load_dotenv(BASE_DIR / ".env")
+except ImportError:
+    pass
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yg#y01+14rh0=__5(h(ds+gk^%5+8)l3zgdn&&scxpv)&p=o*-'
+SECRET_KEY = os.getenv(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-dev-only-change-me-amigo-fiel',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes', 'on')
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '0.0.0.0',
+    '10.90.8.79',
     'amigofiel.app',
     '*.amigofiel.app',
     '*.trycloudflare.com',
 ]
+
+extra_allowed_hosts = os.getenv('DJANGO_ALLOWED_HOSTS', '')
+if extra_allowed_hosts:
+    ALLOWED_HOSTS.extend(
+        host.strip()
+        for host in extra_allowed_hosts.split(',')
+        if host.strip()
+    )
 
 # CSRF Configuration for Cloudflare Tunnel
 CSRF_TRUSTED_ORIGINS = [
@@ -49,18 +72,21 @@ USE_X_FORWARDED_HOST = True
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'AmigoFiel',
     'chat',
     ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -99,14 +125,22 @@ DATABASES = {
         # Valores padrão (podem ser sobrescritos por variáveis de ambiente)
         'NAME': os.getenv('POSTGRES_DB', 'amigofiel'),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'hU2d1m3L8RdN2wDjZZNYCJU6m3K4wSqDpBSAFsXJhfm7iukpH9tolpc11HhQuo7A'),
-        'HOST': os.getenv('POSTGRES_HOST', '152.67.47.16'),
-        'PORT': os.getenv('POSTGRES_PORT', '5440'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
         'OPTIONS': {
             'sslmode': os.getenv('POSTGRES_SSLMODE') or ('disable' if DEBUG else 'require')
         },
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -159,6 +193,40 @@ LOGIN_URL = '/login/'
 # Após montar o app na raiz, redirecionar para '/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', str(not DEBUG)).lower() in ('1', 'true', 'yes', 'on')
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', str(not DEBUG)).lower() in ('1', 'true', 'yes', 'on')
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8100',
+    'http://127.0.0.1:8100',
+]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r'^http://192\.168\.\d{1,3}\.\d{1,3}:8100$',
+    r'^http://10\.\d{1,3}\.\d{1,3}\.\d{1,3}:8100$',
+    r'^http://172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}:8100$',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 # MEDIA (uploads de usuários)
 MEDIA_URL = '/media/'

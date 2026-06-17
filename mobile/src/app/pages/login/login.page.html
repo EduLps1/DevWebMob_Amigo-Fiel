@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true" class="amigo-mobile auth-page">
+  <section class="auth-shell">
+    <div class="auth-visual">
+      <img src="assets/img/banner-login.png" alt="Amigo Fiel">
+    </div>
+
+    <div class="auth-panel">
+      <a class="auth-brand" routerLink="/">
+        <img src="assets/img/amigo-fiel-logo-amarelo.png" alt="Amigo Fiel">
+        <strong>AMIGO FIEL</strong>
+      </a>
+
+      <h1>Bem-vindo de volta!</h1>
+      <p>Nao tem uma conta? <a routerLink="/cadastro">Cadastre-se</a></p>
+
+      @if (error()) {
+        <div class="error-message" role="alert">{{ error() }}</div>
+      }
+
+      <label class="form-label" for="username">Usuario</label>
+      <ion-input id="username" class="form-input" [(ngModel)]="username" autocomplete="username"></ion-input>
+
+      <label class="form-label" for="password">Senha</label>
+      <div class="password-line">
+        <ion-input
+          id="password"
+          class="form-input"
+          [(ngModel)]="password"
+          [type]="showPassword ? 'text' : 'password'"
+          autocomplete="current-password"
+        ></ion-input>
+        <button type="button" (click)="showPassword = !showPassword">
+          {{ showPassword ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+
+      <ion-button class="auth-button" expand="block" [disabled]="loading()" (click)="login()">
+        Entrar
+      </ion-button>
+    </div>
+  </section>
+</ion-content>
