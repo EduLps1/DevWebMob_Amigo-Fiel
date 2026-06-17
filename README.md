@@ -1,242 +1,222 @@
-## Grupo 3 - <img align="right" width="350" height="30" alt="Grupo" src="https://github.com/user-attachments/assets/d20ed508-e74b-4077-81d7-0267a378d38c" />
+# Amigo Fiel
 
-### 👥 Equipe de Desenvolvimento
+Plataforma web e mobile para adocao responsavel, perfis de ONGs, perfis de lojas parceiras e marketplace pet.
 
-![Foto da Equipe](midia/foto%20da%20equipe.jpeg)
+## Dono e mantenedor
 
-*Equipe Amigo Fiel - Projeto de Sistemas 2025/2*
+Este projeto e mantido por:
 
+- [Eduardo Lopes / EduLps1](https://github.com/EduLps1)
 
-# Amigo Fiel — Adoção responsável & marketplace pet
-<img src="midia/Logo.png" alt="Logo Amigo Fiel" width="200">
+Repositorio oficial:
 
-[![Build](https://img.shields.io/badge/build-Django%205.2.6-blue)]()
-[![Python](https://img.shields.io/badge/python-3.13%20(recomendado)-informational)]()
-[![Database](https://img.shields.io/badge/db-PostgreSQL-336791)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]()
+- [EduLps1/DevWebMob_Amigo-Fiel](https://github.com/EduLps1/DevWebMob_Amigo-Fiel)
 
-Plataforma web que conecta **ONGs, protetores e adotantes** de forma ética e transparente. O projeto nasceu para facilitar a **adoção responsável**,
-promover boas práticas (triagem, termos de responsabilidade, acompanhamento) e, como extensão, oferecer um **marketplace pet** (lojas e produtos) que ajuda a sustentar as iniciativas.
+## Status
 
-**Status:** em desenvolvimento (pré-1.0).
+Em desenvolvimento.
 
----
+O projeto foi retomado a partir de uma base web em Django e esta sendo reestruturado para uma arquitetura hibrida:
 
-## ✨ Principais funcionalidades
+- Web renderizado por Django Templates.
+- API REST para integracao mobile.
+- Frontend mobile em Ionic + Angular consumindo a API.
+- Autenticacao hibrida: sessao/cookies para web e JWT para API/mobile.
 
-- **Catálogo de animais** para adoção com filtros por *espécie, porte, idade, sexo e cidade*.
-- **Perfis e papéis**: `Usuário Comum/Adotante`, `ONG/Protetor` e `Loja/Parceiro`.
-- **Fluxo de pré-adoção**: formulário de interesse, triagem e agendamento com a ONG.
-- **Área pública** com *home* leve, grade de cards, fotos e páginas institucionais (história, dicas de adoção, etc.).
-- **Marketplace** opcional com cadastro de **lojas** e **produtos**.
-- **Autenticação** (login/logout) e **admin** nativo do Django.
-- **Uploads de fotos** dos animais e **múltiplas imagens** por cadastro (planejado).
-- **Logs e auditoria** mínimos (`criado_em`, `atualizado_em`) para rastreabilidade.
+## Stack
 
----
+| Camada | Tecnologia | Funcao |
+| --- | --- | --- |
+| Linguagens | Python, TypeScript, HTML5/CSS3, JavaScript | Backend, mobile e templates |
+| Banco de dados | PostgreSQL | Persistencia local |
+| Backend | Django 5.2.6 | Regras de negocio, ORM e Admin |
+| Frontend web | Django Templates | Interface web classica |
+| API | Django REST Framework | Dados JSON para o mobile |
+| Auth API | SimpleJWT | Access token e refresh token |
+| CORS | django-cors-headers | Integracao Ionic 8100 -> Django 8000 |
+| Frontend mobile | Ionic + Angular | App mobile web |
+| Nativo futuro | Capacitor | Preparacao para build mobile |
 
-## 🧱 Arquitetura & Stack
+## Estrutura
 
-- **Backend**: Django 5.2.6, ORM e Admin.
-- **Banco**: PostgreSQL.
-- **Frontend**: Django Templates + HTML/CSS (base em `templates/style/base_public.html`), JS vanilla onde necessário.
-- **Estrutura de apps** (exemplo): `AmigoFiel` (animais, adoções).
-- **Estático**: `static/` (CSS, imagens, ícones).
-
-
----
-
-## 📁 Estrutura de Mídia
-
-O projeto organiza arquivos de mídia em duas pastas principais:
-
-### `midia/` (raiz do projeto)
-Contém recursos estáticos do projeto e materiais de apresentação:
-- **Logo.png**: logotipo oficial do Amigo Fiel
-- **foto da equipe.jpeg**: foto da equipe de desenvolvimento
-- **Video Comercial.mp4**: vídeo promocional do projeto
-
-### `sistema/media/` (uploads do sistema)
-Armazena uploads dinâmicos organizados por categoria:
-- **defaults/**: imagens padrão do sistema
-  - `avatar_comum.png`, `avatar_empresa.png`, `avatar_ong.png`: avatares padrão para cada tipo de usuário
-  - `pet.png`, `produto.png`, `loja_banner.png`: placeholders para entidades
-  - `Banner's/`: banners padrão
-  - `video/`: vídeos institucionais
-- **pets/**: fotos de animais cadastrados (organizadas por ano)
-- **produtos/**: imagens de produtos do marketplace
-- **usuarios/**: fotos de perfil (subdivididas em `empresa/` e `ong/`)
-
-> ⚠️ **Nota**: Em produção, recomenda-se migrar `sistema/media/` para armazenamento em nuvem (S3, Google Cloud Storage) para melhor escalabilidade.
-
----
-
-## 📊 Apresentações do Projeto
-
-Documentação e apresentações oficiais:
-
-- **[Apresentação Final](Amigo%20Fiel%20-%20Apresentação%20Final.pdf)** - Apresentação completa do produto e funcionalidades
-- **[Apresentação Técnica](Apresentação%20Tecnica.pdf)** - Detalhes técnicos, arquitetura e decisões de desenvolvimento
-- **[Vídeo Comercial](midia/Video%20Comercial.mp4)** - Vídeo promocional do projeto
-
----
-
-## 🚀 Começo rápido
-
-### O que é necessário — execução vs desenvolvimento
-
-- Para rodar o projeto (teste rápido / usuário que quer executar a aplicação):
-  - Python 3.11+.
-  - Ambiente virtual (venv) e instalar dependências: `pip install -r requirements.txt`.
-  - Apontar o projeto para a instância PostgreSQL online (contate o responsável pela instância) ou usar uma instância local se preferir.
-  - Ter um arquivo de configuração `.env` com as variáveis mínimas (SECRET_KEY, DEBUG, ALLOWED_HOSTS e credenciais do DB) — peça o `.env` ou os valores ao responsável se necessário.
-  - Se o servidor PostgreSQL remoto não oferecer SSL nesta porta (você pode ver um erro como "server does not support SSL, but SSL was required"), em PowerShell defina temporariamente a variável e rode o servidor:
-    ```powershell
-    $env:POSTGRES_SSLMODE = 'disable'
-    python manage.py runserver
-    ```
-    Execute `python manage.py migrate` somente se a base apontada não tiver as migrations aplicadas.
-
-- Para desenvolver/alterar o projeto (contribuidores, manutenção, novas features):
-  - Tudo o que consta em "Para rodar o projeto", mais:
-  - PostgreSQL local (ou `docker-compose`) para rodar um banco isolado durante desenvolvimento e testes.
-  - Ferramentas de desenvolvimento: editor/IDE (VS Code, PyCharm), Git, e (opcional) Docker.
-  - Rodar testes e validações locais: `python manage.py test` e linters/formatters conforme o fluxo da equipe.
-  - Ao alterar modelos ou migrations: coordene com a equipe e evite rodar `migrate` em bases compartilhadas sem autorização.
-
-### 1) Pré‑requisitos
-- Python 3.11+ e pip
-- Git
-
-Observação: PostgreSQL é necessário apenas se você for rodar uma instância local do banco. É possível apontar o projeto para uma instância PostgreSQL online compartilhada (veja seção "Banco de dados" abaixo).
-
-> Windows: se precisar do cliente `psql` e ele não for reconhecido, instale o PostgreSQL e adicione `C:\Program Files\PostgreSQL\<versão>\bin` ao PATH.
-
-### 2) Clonar o repositório
-```bash
-git clone https://github.com/Projeto-de-Sistemas-2025-2/Amigo-Fiel.git
-cd Amigo-Fiel
+```text
+.
+|-- mobile/                  # Ionic + Angular
+|-- scripts/                 # Scripts locais de inicializacao
+|-- sistema/                 # Projeto Django
+|   |-- AmigoFiel/           # App principal
+|   |   |-- api/             # API REST/JWT/mobile
+|   |   |-- management/      # Comandos utilitarios locais
+|   |   |-- models.py
+|   |   |-- views.py
+|   |   `-- urls.py
+|   |-- chat/
+|   |-- templates/
+|   `-- manage.py
+|-- requirements.txt
+`-- .env.example
 ```
-(o `manage.py` do projeto está em `sistema/manage.py`; para operar diretamente nele execute `cd sistema` quando necessário)
 
-### 3) Ambiente virtual
-**Windows (PowerShell):**
+## Funcionalidades atuais
+
+- Cadastro web de usuarios por tipo:
+  - adotante
+  - empresa
+  - ONG
+- Login web com sessao/cookies.
+- Login API/mobile com JWT.
+- Endpoint de refresh token.
+- Endpoint `/api/auth/me/` para identificar usuario logado no app.
+- Permissoes por role na API:
+  - `administrador`
+  - `adotante`
+  - `empresa`
+  - `ong`
+- Home web com destaques.
+- Home mobile baseada no mesmo conceito visual do web.
+- Particoes mobile espelhando o web:
+  - `/`
+  - `/login`
+  - `/cadastro`
+  - `/adotar`
+  - `/produtos`
+  - `/lojas`
+  - `/ongs`
+- Endpoints publicos mobile:
+  - `/api/mobile/home/`
+  - `/api/mobile/pets/`
+  - `/api/mobile/produtos/`
+  - `/api/mobile/lojas/`
+  - `/api/mobile/ongs/`
+
+## Configuracao local
+
+Crie o arquivo `.env` a partir do exemplo:
+
+```powershell
+Copy-Item .env.example .env
+notepad .env
+```
+
+Configure principalmente:
+
+```text
+POSTGRES_DB=amigofiel
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=sua_senha
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_SSLMODE=disable
+```
+
+O arquivo `.env` nao deve ser versionado.
+
+## Instalar dependencias
+
+Backend:
+
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-**Linux/macOS:**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+Mobile:
+
+```powershell
+cd mobile
+npm.cmd install
 ```
 
+## Banco de dados
 
-### 4) Banco de dados (PostgreSQL)
-
-O projeto usa PostgreSQL. A equipe mantém uma instância PostgreSQL hospedada online para desenvolvimento compartilhado. Para solicitar credenciais de acesso a essa instância, contate o responsável pela instância: Eduardo Henrique (HelloKiw1) — https://github.com/HelloKiw1. Não compartilhe credenciais publicamente.
-
-Você tem três opções ao começar:
-
-1) Usar a instância PostgreSQL online (rápido, recomendado para visualização)
-- Atualize o arquivo `.env` em `sistema/` com as credenciais/host fornecidos pela equipe.
-- Verifique as migrations sem aplicá-las: `python manage.py showmigrations`.
-- Se *todas* as migrations do projeto já estiverem aplicadas na instância remota, não é necessário executar `migrate` localmente.
-
-Aviso: não execute `python manage.py migrate` em um banco compartilhado sem coordenação com a equipe — isso pode alterar o esquema de todos. Use esta opção principalmente para leitura e testes não destrutivos.
-
-2) Rodar um banco PostgreSQL local (recomendado para desenvolvimento isolado)
-- Instale PostgreSQL localmente ou use `docker-compose` (posso adicionar um exemplo se quiser).
-- Crie o banco e um usuário local (exemplo):
+Crie o banco PostgreSQL local:
 
 ```sql
--- no psql local
 CREATE DATABASE amigofiel;
-CREATE USER amigofiel_user WITH ENCRYPTED PASSWORD 'senha_segura';
-GRANT ALL PRIVILEGES ON DATABASE amigofiel TO amigofiel_user;
 ```
 
-3) Usar a instância online apenas para leitura (usuário com permissão somente leitura)
-- Peça à equipe credenciais `readonly` se quiser inspecionar dados sem risco de alteração.
-
-Se optar por rodar localmente, aponte o `.env` para `127.0.0.1` e rode as migrations normalmente.
-
-### 5) Migrações e superusuário
-
-Antes de rodar `migrate`, verifique o estado das migrations na base que você está apontando:
+Rode as migrations:
 
 ```powershell
-# listar migrations e ver quais estão aplicadas
-python manage.py showmigrations
+cd sistema
+..\.venv\Scripts\python.exe manage.py migrate
 ```
 
-Se a base (local ou remota) já tiver as migrations aplicadas, não há necessidade de rodar `migrate`.
-
-Se estiver em um ambiente local (ou tiver permissão na instância remota) e precisar aplicar migrations:
+Criar ou resetar admin local e limpar dados populados:
 
 ```powershell
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+..\.venv\Scripts\python.exe manage.py reset_local_data --admin-username eduadmin --admin-email seuemail@email.com --confirm-delete
 ```
 
-Acesse:
-- **Site**: http://127.0.0.1:8000/
-- **Admin**: http://127.0.0.1:8000/admin/
+## Rodar o projeto
 
----
+### Django web + API
 
-## 🧩 Domínio do problema (modelagem sugerida)
+Na raiz do projeto:
 
-- **Animal**: nome, espécie, sexo, idade, porte, cidade, descrição, fotos, status.
-- **ONG/Protetor**: dados da instituição, redes, responsável.
-- **Adoção**: interessado, animal, formulário, *status* (aberto, em triagem, aprovado, concluído).
-- **Usuários/Perfis**: `UsuarioComum` (adotante) e `UsuarioEmpresarial` (empresas/parceiros).
-- **Loja/Produto** *(opcional)*: catálogo, preço, estoque básico.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start-django-dev.ps1
+```
 
-> Alguns desses modelos já existem no repositório; outros estão planejados/variando conforme o sprint.
+URLs:
 
----
+- Web local: http://127.0.0.1:8000/
+- Web na rede: http://10.90.8.79:8000/
+- Admin: http://127.0.0.1:8000/admin/
+- API: http://127.0.0.1:8000/api/
 
-## 🌐 Rotas principais (podem variar)
+### Ionic mobile
 
-- `/` — Home
-- `/login` e `/logout`
-- `/` — módulo principal (app montado na raiz)
-  - `/animais` — lista e filtros
-  - `/ongs`
-  - `/lojas`
-  - `/produtos`
+Em outro PowerShell, na raiz do projeto:
 
-Confira `sistema/urls.py` e os `urls.py` dos apps para a versão atual.
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start-mobile-dev.ps1
+```
 
----
+URLs:
 
-## 🔒 Segurança & LGPD
+- Mobile local: http://localhost:8100/
+- Mobile no celular: http://10.90.8.79:8100/
 
-- Coletar **apenas** dados essenciais para a adoção.
-- Fornecer **Termos de Uso** e **Política de Privacidade** claros.
-- Registrar consentimentos e permitir exclusão/portabilidade sob solicitação.
-- Sanitizar uploads e validar formatos de imagem.
-- Manter dependências atualizadas (verifique `pip list --outdated`).
+Observacao: `0.0.0.0` aparece no terminal apenas como endereco de escuta do servidor. Para acessar pelo navegador, use `127.0.0.1`, `localhost` ou o IP da maquina.
 
----
+## Testes e validacao
 
-## ‍💻 Contato & créditos
+Backend:
 
-Projeto acadêmico colaborativo — UFT (2025/2).
+```powershell
+cd sistema
+..\.venv\Scripts\python.exe manage.py check
+..\.venv\Scripts\python.exe manage.py test
+```
 
-Equipe e contribuições:
+Mobile:
 
- - [Eduardo Lopes](https://github.com/EduLps1).
- - [Eduardo Henrique](https://github.com/HelloKiw1)
- - [Henrique Wendler](https://github.com/Henrique-wendler) 
- - [Mahes vras](https://github.com/vrascode) 
- - [Guilherme da Silva](https://github.com/Guilherme1737) 
- - [Marcus Vinicius](https://github.com/Galessss) 
+```powershell
+cd mobile
+node_modules\.bin\tsc.cmd -p tsconfig.app.json --noEmit
+```
 
+## Seguranca
 
-Coordenação e desenvolvimento: comunidade do **Amigo Fiel** 🐾
+Medidas ja aplicadas:
+
+- Remocao de segredos hardcoded do `settings.py`.
+- Configuracao via `.env`.
+- Cookies web com `HttpOnly` e `SameSite=Lax`.
+- Protecao CSRF no login web.
+- Logout web apenas por POST.
+- API isolada com JWT.
+- Roles centralizadas para permissoes API.
+
+Pontos futuros:
+
+- Endpoint de cadastro API para o Ionic.
+- Testes unitarios completos para JWT, refresh, roles e coexistencia web/API.
+- Auditoria de dependencias npm antes de build final.
+- Hardening para ambiente de producao.
+
+## Licenca
+
+Veja [LICENSE](LICENSE).
